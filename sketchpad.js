@@ -1,44 +1,41 @@
-var $square = $("<div />", {class: 'square'});
-
 $(document).ready(function() {
-	initGrid(16);
-	resetGrid();
-	newGrid();
+    initGrid(size);
+    sketchGrid();
+    resetGrid();
 });
 
-function initGrid(squareWidth) {
-	var squareSize = 960 / squareWidth - 2;
+var size = 16;
+var screenWidth = 960
 
-	for (var i = 0; i < squareWidth * squareWidth; i++) {
-		$("#container").append($square.clone());
-	}
+// Initially builds a 16x16in grid appending 58x58px boxes inside container.
+var initGrid = function(size) {
+    var squareSize = ( 960 / size ) - 2;
+    for ( var i = 0; i < size * size; i++) {
+        $("#container").append("<div class='square'></div>");
+    }
 
-	$(".square").width(squareSize);
-	$(".square").height(squareSize);
-
-	sketchGrid();
+    $(".square").width(squareSize);
+    $(".square").height(squareSize);
 };
 
-function sketchGrid() {
-	$(".square").hover(function() {
-		$(this).css("background-color", "#669933");
-	});
-};
+// Changes box color to green up mouse hovering over box.
+var sketchGrid = function() {
+    $(".square").hover(function() {
+        $(this).css("background-color", "#669933");
+    });
+}
 
-function resetGrid() {
-	$("button").click(function() {
-		$(".square").css("background-color", "#FFFFFF");
-		var newSize = prompt("Enter new grid size between 1-64.");
-		while (newSize < 1 || newSize > 64) {
-			if (newSize < 1 || newSize > 64) {
-				alert("Please enter a number between 1-64.");
-				newSize = prompt("Enter new grid size between 1-64");
-			}
-		}
-		newGrid(newSize);
-	});
-};
-
-function newGrid(newSize) {
-	initGrid(newSize);
+// Receive user input on new grid size until requirement satisified.
+var resetGrid = function() {
+    $("button").click(function() {
+        $(".square").css("background-color", "#FFF");
+        var gridSize = prompt("Enter new grid size between 1-64.");
+        while (gridSize < 1 || gridSize > 64) {
+            if (gridSize < 1 || gridSize > 64) {
+                alert("Please enter a number between 1-64.");
+                gridSize = prompt("Enter new grid size between 1-64");
+            }
+        }
+        initGrid(gridSize);
+    });
 };
